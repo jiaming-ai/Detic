@@ -100,8 +100,15 @@ class CustomRCNN(GeneralizedRCNN):
         if do_postprocess:
             assert not torch.jit.is_scripting(), \
                 "Scripting is not supported for postprocess."
-            return CustomRCNN._postprocess(
+            processed_results = CustomRCNN._postprocess(
                 results, batched_inputs, images.image_sizes)
+            # TODO filter out proposals
+            processed_proposals = CustomRCNN._postprocess(
+                proposals, batched_inputs, images.image_sizes)
+            processed_results = [
+                {"instances": r["instances"], "proposals": p["instances"]} for r, p in zip(
+                    processed_results, processed_proposals)]
+            return results
         else:
             return results
 

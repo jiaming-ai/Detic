@@ -162,6 +162,7 @@ class DeticCascadeROIHeads(CascadeROIHeads):
                 predictor.test_nms_thresh,
                 predictor.test_topk_per_image,
             )
+            ### TODO: how to return proposals
             return pred_instances
 
 
