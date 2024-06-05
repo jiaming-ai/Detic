@@ -108,7 +108,7 @@ class CustomRCNN(GeneralizedRCNN):
             processed_results = [
                 {"instances": r["instances"], "proposals": p["instances"]} for r, p in zip(
                     processed_results, processed_proposals)]
-            return results
+            return processed_results
         else:
             return results
 
