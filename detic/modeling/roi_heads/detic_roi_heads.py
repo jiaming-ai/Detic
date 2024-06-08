@@ -154,7 +154,7 @@ class DeticCascadeROIHeads(CascadeROIHeads):
             predictor, predictions, proposals = head_outputs[-1]
             boxes = predictor.predict_boxes(
                 (predictions[0], predictions[1]), proposals)
-            pred_instances, _ = fast_rcnn_inference(
+            pred_instances, idx = fast_rcnn_inference(
                 boxes,
                 scores,
                 image_sizes,
@@ -162,7 +162,9 @@ class DeticCascadeROIHeads(CascadeROIHeads):
                 predictor.test_nms_thresh,
                 predictor.test_topk_per_image,
             )
-            ### TODO: how to return proposals
+            # assign the feature to the proposals
+            for n in range(len(pred_instances)):
+                pred_instances[n].feat = proposals[n].feat[idx[n]]
             return pred_instances
 
 
